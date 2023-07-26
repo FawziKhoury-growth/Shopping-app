@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task4/Button/Button.dart';
 import 'package:task4/Product.dart';
 import 'package:task4/database_helpler.dart';
 import 'package:task4/navigator/route_navigator.dart';
+import 'package:task4/provider/productsProvider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,6 +17,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     // TODO: implement initState
+    Provider.of<listProductProvider>(context, listen: false).fetchProducts();
   }
 
   @override

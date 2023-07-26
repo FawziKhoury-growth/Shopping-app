@@ -1,0 +1,4 @@
+#Wed Jul 26 16:54:17 EEST 2023
+base.0=C\:\\Users\\MacOS\\Documents\\flutterProject\\task4\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

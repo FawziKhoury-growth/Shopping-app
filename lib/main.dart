@@ -1,13 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:task4/database_helpler.dart';
-import 'package:task4/navigator/route_generator.dart';
+
 import 'package:task4/provider/productsProvider.dart';
+
+import 'firebase/firebase_options.dart';
+import 'navigator/route_generator.dart';
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await DatabaseHelper.initDatabase();
+  // await DatabaseHelper.initDatabase();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
   
   runApp(
     MultiProvider(

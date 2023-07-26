@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:task4/navigator/route_generator.dart';
 
 class RouteNavigator{
@@ -7,6 +8,15 @@ class RouteNavigator{
   }
 
   static void goToAndRemove (String routeName){
-    RouteGenerator.navigatorKey.currentState?.pushNamedAndRemoveUntil('/$routeName', (route) => route.isFirst);
+    RouteGenerator.navigatorKey.currentState?.pushNamedAndRemoveUntil('/$routeName', ModalRoute.withName('/$routeName'));
+  }
+
+  static void pushNamedAndRemoveUntil<T extends Object?>(String routeName, bool Function(Route<dynamic>) predicate, {Object? arguments}) {
+    RouteGenerator.navigatorKey.currentState!.pushNamedAndRemoveUntil<T>(
+      routeName,
+      predicate,
+      arguments: arguments,
+    );
   }
 }
+

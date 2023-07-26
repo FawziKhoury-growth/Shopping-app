@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:task4/Button/Button.dart';
-import 'package:task4/Product.dart';
-import 'package:task4/database_helpler.dart';
-import 'package:task4/navigator/route_navigator.dart';
 import 'package:task4/provider/productsProvider.dart';
+
+import 'Button/Button.dart';
+import 'Product.dart';
+import 'navigator/route_navigator.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({
@@ -21,11 +21,7 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   void initState() {
     super.initState();
-
-    // context.watch<listProductProvider>().fetchProducts();
-    Provider.of<listProductProvider>(context, listen: false).fetchProducts();
     print('init');
-
   }
 
   Widget productUI(Product product) {
@@ -35,7 +31,9 @@ class _ProductsPageState extends State<ProductsPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.network(product.imageUrl),
+              Container(
+                  height: 120,
+                  child: Image.network(product.imageUrl, fit: BoxFit.cover)),
               Column(
                 children: [
                   Text("name: ${product.name}"),
@@ -52,16 +50,17 @@ class _ProductsPageState extends State<ProductsPage> {
                       icon: Icon(Icons.remove),
                       color: Colors.red,
                       onPressed: () => {
-                        if(product.quantity!=0){
-                          Provider.of<listProductProvider>(context, listen: false).decrement(product.id)
-                        }
-                      }),
+                            if (product.quantity != 0)
+                              {
+                                Provider.of<listProductProvider>(context,
+                                        listen: false)
+                                    .decrement(product.id)
+                              }
+                          }),
                   SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    "${product.quantity}"
-                  ),
+                  Text("${product.quantity}"),
                   SizedBox(
                     width: 10,
                   ),
@@ -70,10 +69,13 @@ class _ProductsPageState extends State<ProductsPage> {
                       icon: Icon(Icons.add),
                       color: Colors.blue,
                       onPressed: () => {
-                        if(product.quantity<product.availableQuantity){
-                          Provider.of<listProductProvider>(context, listen: false).increment(product.id)
-                        }
-                      }),
+                            if (product.quantity < product.availableQuantity)
+                              {
+                                Provider.of<listProductProvider>(context,
+                                        listen: false)
+                                    .increment(product.id)
+                              }
+                          }),
                 ],
               )
             ]),
@@ -87,13 +89,13 @@ class _ProductsPageState extends State<ProductsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: 
-        Row(
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('product page'),
-            IconButton(onPressed: () => RouteNavigator.goTo('cartPage'), icon: Icon(Icons.shopping_cart))
-           
+            IconButton(
+                onPressed: () => RouteNavigator.goTo('cartPage'),
+                icon: Icon(Icons.shopping_cart))
           ],
         ),
       ),

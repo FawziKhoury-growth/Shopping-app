@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task4/Product.dart';
 import 'package:task4/database_helpler.dart';
+import 'package:task4/firebase/firestore_helper.dart';
 import 'package:task4/navigator/route_navigator.dart';
 
 
@@ -14,20 +15,20 @@ class listProductProvider with ChangeNotifier {
 
   void fetchProducts() async {
     if(_listProduct.isNotEmpty) return; 
-    List<Product> products = await DatabaseHelper.getProducts();
+    List<Product> products = await FireStoreHelper.instance.getAllProducts();
     _listProduct=products;
-   print("test");
     notifyListeners();
     
   }
 
   void onCheckOut() async{
     for(Product product in _listUserProduct){
-      await DatabaseHelper.updateProduct(product);
+      await FireStoreHelper.instance.updateProduct(product);
+      print('updatedd');
     }
     await resetListUser();
 
-      RouteNavigator.goToAndRemove('');
+      RouteNavigator.goToAndRemove('home');
       notifyListeners();
   }
   

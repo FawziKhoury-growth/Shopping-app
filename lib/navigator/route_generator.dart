@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:task4/cartPage.dart';
-import 'package:task4/home.dart';
-import 'package:task4/productsPage.dart';
-import '../main.dart';
+
+import '../cartPage.dart';
+import '../home.dart';
+import '../loadingScreen.dart';
+import '../productsPage.dart';
+
+
 
 
 
@@ -14,6 +17,8 @@ class RouteGenerator{
 
     switch (routeName){
       case '/' :
+        return MaterialPageRoute(builder: (_) => LoadingScreen());
+      case '/home' :
         return MaterialPageRoute(builder: (_) => Home());
       case '/productPage' : 
         return MaterialPageRoute(builder: (_) => ProductsPage());
