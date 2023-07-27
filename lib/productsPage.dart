@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task4/provider/productsProvider.dart';
@@ -99,17 +100,47 @@ class _ProductsPageState extends State<ProductsPage> {
           ],
         ),
       ),
-      body: Center(
-          child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: (50 / 70),
-          crossAxisCount: 2, // Two items in each row
-          crossAxisSpacing: 5.0,
-          mainAxisSpacing: 5.0,
-        ),
-        itemCount: listProduct.length,
-        itemBuilder: (context, index) => productUI(listProduct[index]),
-      )),
+      body: StreamBuilder(
+        stream: Provider.of<listProductProvider>(context).stream(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error fetching products'),
+            );
+          } else {
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: (50 / 70),
+                crossAxisCount: 2, // Two items in each row
+                crossAxisSpacing: 5.0,
+                mainAxisSpacing: 5.0,
+              ),
+              itemCount: snapshot.data!.docs.length,
+               itemBuilder: (context, index) {
+                Map<String, dynamic> data = snapshot.data!.docs[index].data()! as Map<String, dynamic>;
+                Product product = Product.fromMap(data);
+                return productUI(product);
+              },
+            );
+          }
+        },
+      ),
+
+      // Center(
+      //     child: GridView.builder(
+      //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      //     childAspectRatio: (50 / 70),
+      //     crossAxisCount: 2, // Two items in each row
+      //     crossAxisSpacing: 5.0,
+      //     mainAxisSpacing: 5.0,
+      //   ),
+      //   itemCount: listProduct.length,
+      //   itemBuilder: (context, index) => productUI(listProduct[index]),
+      // )),
     );
   }
 }

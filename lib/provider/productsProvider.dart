@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:task4/Product.dart';
 import 'package:task4/database_helpler.dart';
@@ -12,6 +13,11 @@ class listProductProvider with ChangeNotifier {
   
   List <Product> get listProduct => _listProduct;
   List <Product> get listUserProduct => _listUserProduct;
+
+  Stream<QuerySnapshot> stream(){
+    return  FirebaseFirestore.instance.collection('productInfo').snapshots();
+ }
+
 
   void fetchProducts() async {
     if(_listProduct.isNotEmpty) return; 
